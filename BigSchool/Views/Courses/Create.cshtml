@@ -1,0 +1,36 @@
+﻿@model BigSchool.ViewModels.CourseViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm("Create", "Courses"))
+{
+    @Html.AntiForgeryToken();
+    <div class="form-group">
+        @Html.LabelFor(h => h.Place)
+        @Html.TextBoxFor(h => h.Place, new { @class = "form-control" })
+        @Html.ValidationMessageFor(h=>h.Place)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(h => h.Date)
+        @Html.TextBoxFor(h => h.Date, new { @class = "form-control" })
+        @Html.ValidationMessageFor(h => h.Date)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(h => h.Time)
+        @Html.TextBoxFor(h => h.Time, new { @class = "form-control" })
+        @Html.ValidationMessageFor(h => h.Time)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(h => h.Category)
+        @Html.DropDownListFor(h => h.Category, new SelectList(Model.Categories, "ID", "Name"), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(h => h.Categories)
+    </div>
+    <button type="submit" value="Save" class="btn btn-primary">Save</button>
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval");
+}
