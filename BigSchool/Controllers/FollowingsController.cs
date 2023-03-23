@@ -4,42 +4,43 @@ using BigSchool.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Razor.Parser.SyntaxTree;
+using System.Web.UI.WebControls;
 using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 
 namespace BigSchool.Controllers
 {
-    [Authorize]
-    public class AttendancesController : ApiController
+    public class FollowingsController : ApiController
     {
-        private ApplicationDbContext _dbcontext;
-        public AttendancesController()
+        private readonly ApplicationDbContext _dbcontext;
+        public FollowingsController()
         {
             _dbcontext = new ApplicationDbContext();
         }
         [HttpPost]
-        public IHttpActionResult Attend(AttendanceDto AttendanceDto)
+        public IHttpActionResult Follow(FollowingDto followingDto)
         {
             var userId = User.Identity.GetUserId();
-            if (_dbcontext.Attendances.Any(a => a.AttendeeId == userId && a.CourseId == AttendanceDto.CourseId))
+            if(_dbcontext.Followings.Any(f => f.FollowerId== userId && f.FolloweeId ==followingDto.FolloweeId))
+            
 
-                return BadRequest("The Attendance already exists!");
+                return BadRequest("The following already exists!");
 
-            var attendance = new Attendance
+            var folwing = new Following
             {
-                CourseId = AttendanceDto.CourseId,
-                AttendeeId = userId
+                FollowerId = userId,
+                FolloweeId = followingDto.FolloweeId
             };
-            _dbcontext.Attendances.Add(attendance);
+            _dbcontext.Followings.Add(folwing);
             _dbcontext.SaveChanges();
             return Ok();
         }
-
     }
 }
+
