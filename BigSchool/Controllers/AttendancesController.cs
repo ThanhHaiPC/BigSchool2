@@ -15,6 +15,7 @@ using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 
 namespace BigSchool.Controllers
 {
+    // Authorize
     [Authorize]
     public class AttendancesController : ApiController
     {
